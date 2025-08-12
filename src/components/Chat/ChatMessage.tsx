@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Typography, Stack, IconButton, Chip } from "@mui/material";
+import { Card, CardContent, Typography, Stack, IconButton, Chip } from "@mui/material";
 import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
 import SmartToyRoundedIcon from "@mui/icons-material/SmartToyRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
@@ -44,15 +44,6 @@ export default function ChatMessage({ message, onSpeak }: Props) {
             {message.text}
           </Typography>
 
-          {message.memeUrl && (
-            <CardMedia
-              component="img"
-              image={message.memeUrl}
-              alt="Cheer-up meme from Crush Care AI"
-              sx={{ mt: 1, borderRadius: 1 }}
-              loading="lazy"
-            />
-          )}
 
           {message.recipeName && (
             <Chip

@@ -9,7 +9,7 @@ import ChatMessage from "@/components/Chat/ChatMessage";
 import { ChatMessage as Message } from "@/types/chat";
 import { DEFAULT_LANGUAGE, LanguageCode } from "@/config";
 import { generateGeminiReply } from "@/services/gemini";
-import { fetchMeme } from "@/services/meme";
+
 import { fetchRandomRecipe } from "@/services/recipe";
 import { synthesizeSpeech } from "@/services/googleTts";
 import { transcribeWebmBase64 } from "@/services/googleStt";
@@ -46,6 +46,31 @@ export default function Chat() {
     document.title = "Crush Care AI — Chat";
   }, []);
 
+  // Greet the user on first visit and try speaking it
+  useEffect(() => {
+    const text = language === "hi-IN" ? "प्रिय, मैं आपकी कैसे मदद कर सकता/सकती हूँ? 💖" : "How can I help you, dear? 💖";
+    setMessages((m) => {
+      if (m.length > 0) return m;
+      const aiMsg: Message = {
+        id: crypto.randomUUID(),
+        sender: "ai",
+        text,
+        language,
+        timestamp: Date.now(),
+      };
+      return [aiMsg];
+    });
+    (async () => {
+      try {
+        const base64 = await synthesizeSpeech(text, language);
+        const audio = new Audio(`data:audio/mp3;base64,${base64}`);
+        await audio.play();
+      } catch {}
+    })();
+    // run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     // Auto-scroll to bottom on new messages
     containerRef.current?.scrollTo({ top: containerRef.current.scrollHeight, behavior: "smooth" });
@@ -66,9 +91,8 @@ export default function Chat() {
       setLoading(true);
 
       try {
-        const [aiText, meme, recipe] = await Promise.all([
+        const [aiText, recipe] = await Promise.all([
           generateGeminiReply(userMsg.text, language),
-          fetchMeme(),
           fetchRandomRecipe(),
         ]);
 
@@ -77,7 +101,6 @@ export default function Chat() {
           sender: "ai",
           text: aiText,
           language,
-          memeUrl: meme?.url,
           recipeName: recipe?.strMeal,
           timestamp: Date.now(),
         };

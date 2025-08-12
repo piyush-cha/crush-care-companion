@@ -17,9 +17,9 @@
 export type LanguageCode = "en-US" | "hi-IN";
 
 export const CONFIG = {
-  GEMINI_API_KEY: "", // e.g. AIza... (Generative Language API)
-  GOOGLE_SPEECH_API_KEY: "", // e.g. AIza... (Cloud Speech-to-Text)
-  GOOGLE_TTS_API_KEY: "", // e.g. AIza... (Cloud Text-to-Speech)
+  GEMINI_API_KEY: "AIzaSyDl-8HEqZVkcHr6JXQ1YQESSEMdzhrHfEM", // Generative Language API (restricted by referrer)
+  GOOGLE_SPEECH_API_KEY: "AIzaSyDl-8HEqZVkcHr6JXQ1YQESSEMdzhrHfEM", // Cloud Speech-to-Text
+  GOOGLE_TTS_API_KEY: "AIzaSyDl-8HEqZVkcHr6JXQ1YQESSEMdzhrHfEM", // Cloud Text-to-Speech
 } as const;
 
 export const DEFAULT_LANGUAGE: LanguageCode = "en-US";

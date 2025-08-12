@@ -43,7 +43,24 @@ export const getAppTheme = (mode: PaletteMode) => {
       button: { fontWeight: 600, textTransform: "none" },
     },
     components: {
-      MuiAppBar: { defaultProps: { elevation: 0 } },
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            background: mode === "dark" ? "linear-gradient(180deg, #0b1020 0%, #111827 100%)" : "linear-gradient(180deg, #fdf2f8 0%, #eef2ff 100%)",
+            backgroundAttachment: "fixed",
+          },
+        },
+      },
+      MuiAppBar: {
+        defaultProps: { elevation: 0 },
+        styleOverrides: {
+          root: {
+            backdropFilter: "saturate(180%) blur(10px)",
+            backgroundColor: mode === "dark" ? "rgba(17, 24, 39, 0.6)" : "rgba(255, 255, 255, 0.7)",
+            borderBottom: mode === "dark" ? "1px solid #1f2937" : "1px solid #e5e7eb",
+          },
+        },
+      },
       MuiPaper: {
         styleOverrides: {
           root: {
